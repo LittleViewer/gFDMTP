@@ -85,5 +85,10 @@ class my_utils :
             return True
         return False
     
+    def is_list(self, possible_list):
+        if type(possible_list) is list:
+            return True
+        return False
+
     def __init__(self):
         self.date_ = datetime.datetime.now()
