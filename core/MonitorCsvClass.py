@@ -1,7 +1,6 @@
 import random
 import time
 import core.coreUtilsClass as cCUC
-#s
 class monitor_csv :
     def file_name_composer(self):
         unix_time = str(time.time())
