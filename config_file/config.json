@@ -1,8 +1,8 @@
 {
     "subway company ticket" : 20,
     "number of months of operation" : 160,
-    "minimum-maximum starting price" : [1, 5],
+    "minimum-maximum starting price" : [5, 9],
     "minimum-maximum fluctuation" : [1, 3],
-    "percentage chance of deflation" : 35,
+    "percentage chance of deflation" : 49,
     "range of noise" : [0, 1]
 }
