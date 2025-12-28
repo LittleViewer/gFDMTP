@@ -58,9 +58,10 @@ class monitor_csv :
                     if is_noise >= 99:
                         noise_value = random.randint(range_noise[0], range_noise[1])                        
                     if world_economic_environnement[tick][1] == True:
-                        dict_data[one_company].append(base_price+(world_economic_environnement[tick][0]-noise_value))
+                        dict_data[one_company].append(base_price + ((world_economic_environnement[tick][0]-noise_value) * (dict_data[one_company][0] / base_price)))
                     else: 
-                        dict_data[one_company].append(base_price-(world_economic_environnement[tick][0]-noise_value))
+                        dict_data[one_company].append(base_price - (base_price * (world_economic_environnement[tick][0] - noise_value) / 100))
+                    
                     base_price = dict_data[one_company][tick]
                 else:
                     base_price = dict_data[one_company][0]
