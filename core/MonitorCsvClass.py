@@ -58,13 +58,26 @@ class monitor_csv :
                     if is_noise >= 99:
                         noise_value = random.randint(range_noise[0], range_noise[1])                        
                     if world_economic_environnement[tick][1] == True:
-                        dict_data[one_company].append(base_price+world_economic_environnement[tick][0]+noise_value)
+                        dict_data[one_company].append(base_price+(world_economic_environnement[tick][0]-noise_value))
                     else: 
-                        dict_data[one_company].append(base_price-(world_economic_environnement[tick][0]+noise_value))
+                        dict_data[one_company].append(base_price-(world_economic_environnement[tick][0]-noise_value))
                     base_price = dict_data[one_company][tick]
                 else:
                     base_price = dict_data[one_company][0]
         return dict_data
+    
+    def print_csv_title_line(self, handle, dict_data):
+        title_line = ""
+        for one_data in dict_data:
+            title_line = title_line+","+one_data
+        handle.write(title_line+"\n")
+
+    def print_csv_data_line(self, handle, dict_data):
+        for one_tick in range(self.number_tick_world_):
+            one_line = ""
+            for one_data in dict_data:
+                one_line = one_line+","+str(dict_data[one_data][one_tick])
+            handle.write(one_line+"\n")
 
     def sub_pipe_rule_generation (self, link = "config_file/config.json", rules = ["subway company ticket", "number of months of operation","minimum-maximum starting price", "minimum-maximum fluctuation","percentage chance of deflation", "range of noise"]):
         content = self.cCUC_obj_.read_json_file(link)
@@ -82,12 +95,6 @@ class monitor_csv :
         self.number_tick_world_ = number_tick_world
         return dict_data
 
-    def print_csv_title_line(self, handle, dict_data):
-        title_line = ""
-        for one_data in dict_data:
-            title_line = title_line+","+one_data
-        handle.write(title_line+"\n")
-
     def pipe_generate_file(self):
         dict_data = self.sub_pipe_rule_generation()
         name_file = self.cCUC_obj_.absolute_link(self.file_name_composer())
@@ -98,12 +105,7 @@ class monitor_csv :
             self.cCUC_obj_.file_open(name_file, "w")
             handle = self.cCUC_obj_.file_open(name_file, "a")
             self.print_csv_title_line(handle, dict_data)
-            for one_tick in range(self.number_tick_world_):
-                one_line = ""
-                for one_data in dict_data:
-                    one_line = one_line+","+str(dict_data[one_data][one_tick])
-                handle.write(one_line+"\n")
-
+            self.print_csv_data_line(handle, dict_data)
 
     def __init__(self):
         self.cCUC_obj_ = cCUC.my_utils()
